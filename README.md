@@ -29,8 +29,15 @@ xhost +local: && distrobox enter qemu-box -- ~/bin/start_windows.sh
 - **Błąd prędkości dysku:** Upewnij się, że Twój monitor/hub jest ustawiony w trybie USB 3.0. Skrypt `start_windows.sh` automatycznie sprawdza prędkość przed startem.
 - **Brak obrazu (SPICE):** Jeśli okno Windowsa się nie pojawia, uruchom podgląd ręcznie:
   ```bash
-  xhost +local: && distrobox enter qemu-box -- remote-viewer spice://127.0.0.1:5900
+  distrobox enter qemu-box -- remote-viewer spice://127.0.0.1:5900
   ```
+
+## Rozwiązywanie problemów:
+- **Zabijanie procesów:** Usuwa wszystkie uruchomione procesy qemu. Możemy wrócić do uruchamiania.
+  ```bash
+  pkill -f qemu-system-x86_64
+  ```
+
 
 ## Pliki:
 - `start_windows.sh`: Główny skrypt uruchamiający QEMU.
