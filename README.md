@@ -54,3 +54,28 @@ Jeśli preferujesz linię komend, zawsze możesz odpalić system komendą:
 ```bash
 xhost +local: && distrobox enter qemu-box -- /home/deck/Applications/win-qemu-distrobox/start_windows.sh
 ```
+
+## Opcje zaawansowane: Optymalizacja wydajności (VirtIO)
+Domyślnie projekt używa bezpiecznych kontrolerów `AHCI` oraz sieci `e1000`, aby uniknąć błędów BSoD (`0x0000007B INACCESSIBLE_BOOT_DEVICE`) u użytkowników po pierwszym sklonowaniu Windowsa z fizycznego dysku USB.
+
+Jeśli chcesz **znacznie** przyspieszyć działanie wirtualnej maszyny, możesz zmienić konfigurację na ultraszybkie kontrolery **VirtIO**.
+
+**Instrukcja przejścia na VirtIO:**
+1. Po udanym uruchomieniu systemu Windows na ustawieniach AHCI, otwórz przeglądarkę wewnątrz Windowsa i pobierz oficjalne sterowniki:
+   [Pobierz virtio-win-guest-tools.exe](https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/latest-virtio/virtio-win-guest-tools.exe)
+2. Zainstaluj pobrany pakiet.
+3. Kliknij Menu Start, wyszukaj `cmd`, kliknij prawym przyciskiem myszy na **"Wiersz polecenia"** i wybierz **"Uruchom jako administrator"**.
+4. Wpisz poniższą komendę i wciśnij Enter, aby wymusić ładowanie sterownika na wczesnym etapie bootowania:
+   ```cmd
+   sc config vioscsi start= boot
+   ```
+5. Zamknij Windowsa (`Start -> Zamknij`).
+6. Edytuj plik `/home/deck/Applications/win-qemu-distrobox/start_windows.sh` – zlokalizuj w nim starszą sekcję kontrolerów (AHCI / e1000) i podmień ją w całości na poniższy kod:
+
+```bash
+  -device virtio-scsi-pci,id=scsi0 \
+  -drive file="$DISK_PATH",format=raw,if=none,id=drive0 \
+  -device scsi-hd,bus=scsi0.0,drive=drive0 \
+  -netdev user,id=net0 -device virtio-net-pci,netdev=net0 \
+```
+Gotowe! Po uruchomieniu ze zmodyfikowanego skryptu Windows zbootuje bezpośrednio z potężnego sterownika VirtIO!
