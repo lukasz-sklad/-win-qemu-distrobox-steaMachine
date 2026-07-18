@@ -33,9 +33,10 @@ qemu-system-x86_64 \
   -chardev spicevmc,id=spicechannel0,name=vdagent \
   -drive if=pflash,format=raw,readonly=on,file="$OVMF_CODE" \
   -drive if=pflash,format=raw,file="$OVMF_VARS" \
-  -device virtio-scsi-pci,id=scsi0 \
-  -drive file="$DISK_PATH",format=raw,if=virtio,id=drive0 \
-  -netdev user,id=net0 -device virtio-net-pci,netdev=net0 \
+  -device ahci,id=ahci0 \
+  -drive file="$DISK_PATH",format=raw,if=none,id=drive0 \
+  -device ide-hd,bus=ahci0.0,drive=drive0 \
+  -netdev user,id=net0 -device e1000,netdev=net0 \
   -usb \
   -device qemu-xhci,id=usb-bus \
   -device usb-host,vendorid=0x045e,productid=0x0b12,guest-reset=false \
