@@ -1,0 +1,17 @@
+# Ignoruj wszystkie duże paczki i obrazy systemowe
+*.zip
+*.iso
+*.img
+
+# Pliki tymczasowe i logi
+*.log
+*~
+.DS_Store
+wytyczne-Mastodon.md
+wytyczne-blogu.md
+oonnnn
+# Jeśli nie chcesz trzymać skryptów wdrożeniowych na dysku po przeniesieniu na repo:
+# (Pliki OVMF ważą 4MB więc spokojnie przejdą na Githubie, ale ISO Clonezilli by go wysadziło!)
+p```pp
+
+
