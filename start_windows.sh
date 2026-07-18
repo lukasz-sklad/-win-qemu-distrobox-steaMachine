@@ -12,7 +12,7 @@ if [ ! -f "$DISK_PATH" ]; then
 fi
 
 # --- Parametry maszyny ---
-RAM="4G"
+RAM="8G"
 CORES="4"
 
 echo "=== Uruchamianie Windows (QEMU) z obrazu na NVMe ==="
