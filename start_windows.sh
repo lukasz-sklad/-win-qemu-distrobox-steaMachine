@@ -41,4 +41,6 @@ qemu-system-x86_64 \
   -device qemu-xhci,id=usb-bus \
   -device usb-host,vendorid=0x045e,productid=0x0b12,guest-reset=false \
   -device usb-tablet \
+  -audiodev pa,id=snd0 \
+  -device intel-hda -device hda-micro,audiodev=snd0 \
   -rtc base=localtime,clock=rt
