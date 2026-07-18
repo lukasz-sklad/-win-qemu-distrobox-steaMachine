@@ -36,7 +36,7 @@ qemu-system-x86_64 \
   -device ahci,id=ahci0 \
   -drive file="$DISK_PATH",format=raw,if=none,id=drive0 \
   -device ide-hd,bus=ahci0.0,drive=drive0 \
-  -netdev user,id=net0 -device e1000,netdev=net0 \
+  -netdev user,id=net0,hostfwd=tcp::2222-:22 -device e1000,netdev=net0 \
   -usb \
   -device qemu-xhci,id=usb-bus \
   -device usb-host,vendorid=0x045e,productid=0x0b12,guest-reset=false \
